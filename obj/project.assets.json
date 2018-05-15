@@ -219,7 +219,7 @@
     "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "0.2.0",
+    "version": "0.3.0-alpha-8",
     "restore": {
       "projectUniqueName": "/home/eddie/shit/ordersoft/ordersoft-client-cs/ordersoft-client-cs.csproj",
       "projectName": "ordersoft-client-cs",

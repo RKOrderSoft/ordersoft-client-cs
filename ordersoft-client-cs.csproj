@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <PropertyGroup>
-  	<VersionPrefix>0.2.0</VersionPrefix>
+  	<VersionPrefix>0.3.0</VersionPrefix>
+  	<VersionSuffix>alpha-8</VersionSuffix>
   </PropertyGroup>
 
 </Project>
