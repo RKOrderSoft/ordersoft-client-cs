@@ -1,9 +1,0 @@
-/home/eddie/shit/ordersoft/ordersoft-client-cs/bin/Debug/netstandard2.0/ordersoft-client-cs.deps.json
-/home/eddie/shit/ordersoft/ordersoft-client-cs/bin/Debug/netstandard2.0/ordersoft-client-cs.dll
-/home/eddie/shit/ordersoft/ordersoft-client-cs/bin/Debug/netstandard2.0/ordersoft-client-cs.pdb
-/home/eddie/shit/ordersoft/ordersoft-client-cs/obj/Debug/netstandard2.0/ordersoft-client-cs.csprojAssemblyReference.cache
-/home/eddie/shit/ordersoft/ordersoft-client-cs/obj/Debug/netstandard2.0/ordersoft-client-cs.csproj.CoreCompileInputs.cache
-/home/eddie/shit/ordersoft/ordersoft-client-cs/obj/Debug/netstandard2.0/ordersoft-client-cs.AssemblyInfoInputs.cache
-/home/eddie/shit/ordersoft/ordersoft-client-cs/obj/Debug/netstandard2.0/ordersoft-client-cs.AssemblyInfo.cs
-/home/eddie/shit/ordersoft/ordersoft-client-cs/obj/Debug/netstandard2.0/ordersoft-client-cs.dll
-/home/eddie/shit/ordersoft/ordersoft-client-cs/obj/Debug/netstandard2.0/ordersoft-client-cs.pdb
