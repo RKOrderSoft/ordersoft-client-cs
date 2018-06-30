@@ -8,11 +8,6 @@ using System.Threading.Tasks;
 using System.Net;
 
 namespace OrderSoft {
-	public class Response {
-		public string ordersoft_version { get; set; }
-		public string reason { get; set; }
-	}
-
 	public class OSClient {
 		public const string CLIENT_ID = "dotnet";
 
@@ -20,38 +15,40 @@ namespace OrderSoft {
 		private string sessionId;
 		private Uri endpoint;
 
-		public OSClient() {
+		public OSClient () {
 			httpClient.DefaultRequestHeaders.Add("client", CLIENT_ID);
 		}
 
-		public async void init(string newUrl) {
+		/// <summary>
+		///   Check if newUrl is an OrderSoft server and, if it is, set endpoint.
+		/// </summary>
+		public async void init (string newUrl) {
 			endpoint = new Uri(Path.Combine(newUrl, "api/"));
 
-			var vals = new Dictionary<string,bool> {};
-			vals.Add("test", true);
+			var vals = new Request();
+			vals.Test = true;
 			var response = await sendRequest("test", vals);
 			var yes = response.StatusCode == HttpStatusCode.OK;
 			Console.WriteLine(yes.ToString() + response.StatusCode.ToString());
 
 			string responseContent = await response.Content.ReadAsStringAsync();
+			responseContent = parseResponse(responseContent);
 			Console.WriteLine(responseContent);
 			Response initResponse = JsonConvert.DeserializeObject<Response>(responseContent);
-			Console.WriteLine(initResponse.ordersoft_version);
+			Console.WriteLine(initResponse.ServerVersion);
+		}
+
+		/// <summary>
+		///   Parse string received from server so JsonConvert can use it
+		///   TODO find a better way of doing this??
+		/// </summary>
+		private static string parseResponse (string inString) {
+			return inString.Trim('"').Replace("\\", "");
 		}
 
 		private Task<HttpResponseMessage> sendRequest (String relativeUrl, 
-		  Dictionary<string,bool> bodyVals) {
+		  Request bodyVals) {
 			var urlToPost = new Uri(endpoint, relativeUrl);
-
-			// Add sessionId if initialised, else warn
-			Console.WriteLine(httpClient.DefaultRequestHeaders);
-			if (sessionId == null) {
-				Console.Write("Attempting to POST ");
-				Console.Write(relativeUrl);
-				Console.WriteLine(" with no sessionId");
-			} else {
-				httpClient.DefaultRequestHeaders.Add("sessionId", sessionId);
-			}
 
 			// Convert dict to JSON, StringContent
 			var bodyJSON = JsonConvert.SerializeObject(bodyVals);
