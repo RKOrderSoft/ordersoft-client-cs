@@ -14,6 +14,7 @@ namespace OrderSoft {
 
 		private static readonly HttpClient httpClient = new HttpClient();
 		private string sessionId;
+		private int accessLevel;
 		private Uri endpoint;
 
 		public OSClient () {
@@ -61,10 +62,15 @@ namespace OrderSoft {
 			var response = await sendRequest("login", vals);
 			var responseBody = await getResponseObject<LoginResponse>(response);
 
+			Console.WriteLine(response.StatusCode);
+			Console.WriteLine(responseBody.Reason);
+
 			if (response.StatusCode == HttpStatusCode.OK) {
-				
+				sessionId = responseBody.SessionId;
+				accessLevel = responseBody.AccessLevel;
 			} else {
 				// TODO make new exception && throw it
+				throw new NotImplementedException();
 			}
 		}
 
