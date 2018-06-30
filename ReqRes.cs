@@ -2,15 +2,17 @@ using System;
 using Newtonsoft.Json;
 
 namespace OrderSoft {
-	public struct Request {
+	public class RequestBody { 	}
+
+	public class TestRequestBody : RequestBody {
 		[JsonProperty("test")]
 		public bool Test { get; set; }
 	}
-	
-	public struct Response {
+
+	public class Response {
 		[JsonProperty("ordersoft_version")]
 		public string ServerVersion { get; set; }
 		[JsonProperty("reason")]
-		public string reason { get; set; }
+		public string Reason { get; set; }
 	}
 }
