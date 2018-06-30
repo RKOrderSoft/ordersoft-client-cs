@@ -35,10 +35,7 @@ namespace OrderSoft {
 				var exceptionText = newUrl + " is not an OrderSoft server (did not return JSON)";
 				throw new NotOrderSoftServerException(exceptionText);
 			}
-
-			var responseText = await response.Content.ReadAsStringAsync();
-			responseText = parseResponse(responseText);
-			var responseBody = JsonConvert.DeserializeObject<Response>(responseText);
+			var responseBody = await getResponseObject<Response>(response);
 
 			// Validate response
 			if (responseBody.ServerVersion != null) {
@@ -51,6 +48,33 @@ namespace OrderSoft {
 				var exceptionText = newUrl + " is not an OrderSoft server (did not return a server_version)";
 				throw new NotOrderSoftServerException(exceptionText);
 			}
+		}
+
+		/// <summary>
+		///   Logs in and sets sessionId
+		/// </summary>
+		public async Task login (string username, string password) {
+			var vals = new LoginRequestBody();
+			vals.Username = username;
+			vals.Password = password;
+
+			var response = await sendRequest("login", vals);
+			var responseBody = await getResponseObject<LoginResponse>(response);
+
+			if (response.StatusCode == HttpStatusCode.OK) {
+				
+			} else {
+				// TODO make new exception && throw it
+			}
+		}
+
+		/// <summary>
+		///   Given an HttpResponseMessage, returns an object by deserialising the content JSON.
+		/// </summary>
+		private async Task<T> getResponseObject<T>(HttpResponseMessage response) {
+			var responseText = await response.Content.ReadAsStringAsync();
+			responseText = parseResponse(responseText);
+			return JsonConvert.DeserializeObject<T>(responseText);
 		}
 
 		/// <summary>
