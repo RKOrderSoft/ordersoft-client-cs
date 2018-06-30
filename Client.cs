@@ -46,6 +46,9 @@ namespace OrderSoft {
 			return inString.Trim('"').Replace("\\", "");
 		}
 
+		/// <summary>
+		///   Sends request to endpoint/relativeUrl, using bodyVals
+		/// </summary>
 		private Task<HttpResponseMessage> sendRequest (String relativeUrl, 
 		  Request bodyVals) {
 			var urlToPost = new Uri(endpoint, relativeUrl);
