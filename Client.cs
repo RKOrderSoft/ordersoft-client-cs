@@ -24,7 +24,7 @@ namespace OrderSoft {
 		/// <summary>
 		///   Check if newUrl is an OrderSoft server and, if it is, set endpoint.
 		/// </summary>
-		public async Task init (string newUrl) {
+		public async Task Init (string newUrl) {
 			var provisionalEndpoint = new Uri(Path.Combine(newUrl, "api/"));
 
 			var vals = new TestRequestBody();
@@ -54,7 +54,7 @@ namespace OrderSoft {
 		/// <summary>
 		///   Logs in and sets sessionId
 		/// </summary>
-		public async Task login (string username, string password) {
+		public async Task Login (string username, string password) {
 			var vals = new LoginRequestBody();
 			vals.Username = username;
 			vals.Password = password;
