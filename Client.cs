@@ -27,7 +27,7 @@ namespace OrderSoft {
 		public async Task Init (string newUrl) {
 			var provisionalEndpoint = new Uri(Path.Combine(newUrl, "api/"));
 
-			var vals = new TestRequestBody();
+			var vals = new TestRequest();
 			vals.Test = true;
 
 			var response = await sendRequest("test", vals, provisionalEndpoint);
@@ -55,7 +55,7 @@ namespace OrderSoft {
 		///   Logs in and sets sessionId
 		/// </summary>
 		public async Task Login (string username, string password) {
-			var vals = new LoginRequestBody();
+			var vals = new LoginRequest();
 			vals.Username = username;
 			vals.Password = password;
 
