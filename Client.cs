@@ -31,6 +31,8 @@ namespace OrderSoft {
 			vals.Test = true;
 
 			var response = await sendRequest("test", vals, provisionalEndpoint);
+
+			// Check Content-Type of response
 			if (response.Content.Headers.ContentType.ToString() != "application/json; charset=utf-8") {
 				Console.WriteLine(response.Content.Headers.ContentType.ToString());
 				var exceptionText = newUrl + " is not an OrderSoft server (did not return JSON)";
@@ -62,16 +64,30 @@ namespace OrderSoft {
 			var response = await sendRequest("login", vals);
 			var responseBody = await getResponseObject<LoginResponse>(response);
 
-			Console.WriteLine(response.StatusCode);
-			Console.WriteLine(responseBody.Reason);
-
 			if (response.StatusCode == HttpStatusCode.OK) {
 				sessionId = responseBody.SessionId;
 				accessLevel = responseBody.AccessLevel;
+
+				// Add sessionId header to httpClient
+				httpClient.DefaultRequestHeaders.Add("sessionId", sessionId);
+			} else if (response.StatusCode == HttpStatusCode.Unauthorized) {
+				throw new IncorrectDetailsException(responseBody.Reason);
 			} else {
-				// TODO make new exception && throw it
-				throw new NotImplementedException();
+				// this shouldn't happen
+				throw new Exception(responseBody.Reason);
 			}
+		}
+
+		/// <summary>
+		///   Gets a list of unpaid orders from the server
+		/// </summary>
+		public async Task<UnpaidOrdersResponse> GetUnpaidOrders () {
+			var vals = new RequestBody(); // blank request for unpaidOrders
+
+			var rawResponse = await sendRequest("unpaidOrders", vals);
+			var responseBody = await getResponseObject<UnpaidOrdersResponse>(rawResponse);
+
+			return responseBody;
 		}
 
 		/// <summary>

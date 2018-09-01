@@ -12,4 +12,16 @@ namespace OrderSoft {
 		public NotInitiatedException (string message) : base(message) {}
 		public NotInitiatedException (string message, Exception inner) : base(message, inner) {}
 	}
+
+	public class IncorrectDetailsException : Exception {
+		public IncorrectDetailsException () {}
+		public IncorrectDetailsException (string message) : base(message) {}
+		public IncorrectDetailsException (string message, Exception inner) : base(message, inner) {}
+	}
+
+	public class UnauthenticatedException : Exception {
+		public UnauthenticatedException () {}
+		public UnauthenticatedException (string message) : base(message) {}
+		public UnauthenticatedException (string message, Exception inner) : base(message, inner) {}
+	}
 }

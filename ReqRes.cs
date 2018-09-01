@@ -90,13 +90,8 @@ namespace OrderSoft {
 	}
 
 	public class UnpaidOrdersResponse : Response {
-		public string[] UnpaidOrders;
-
 		[JsonProperty("unpaidOrders")]
-		public string UnpaidOrdersString {
-			get { return String.Join(",", UnpaidOrders); }
-			set { UnpaidOrders = value.Split(','); }
-		}
+		public string[] UnpaidOrders;
 	}
 
 	public class GetDishesResponse : Response {
