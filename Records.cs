@@ -5,9 +5,13 @@ using Newtonsoft.Json;
 
 namespace OrderSoft {
 	public class OrderObject {
+        [JsonIgnore]
 		public DateTime TimeSubmitted;
+        [JsonIgnore]
 		public DateTime TimeCompleted;
+        [JsonIgnore]
 		public DateTime TimePaid;
+        [JsonIgnore]
 		public string[] Dishes;
 
 		[JsonProperty("orderId")]
@@ -57,6 +61,7 @@ namespace OrderSoft {
 	}
 
 	public class DishObject {
+        [JsonIgnore]
 		public string[] Sizes;
 
 		[JsonProperty("dishId")]

@@ -81,7 +81,7 @@ namespace OrderSoft {
 		/// <summary>
 		///   Get order object, given an orderId or table number
 		/// </summary>
-		public async Task<OrderObject> GetOrder(string orderId = "", int tableNum = -1) {
+		public async Task<OrderObject> GetOrder (string orderId = "", int tableNum = -1) {
 			// orderId and tableNum are optional and are intended to be passed
 			// as named arguments, as per documentation
 			var vals = new GetOrderRequest();
@@ -105,6 +105,29 @@ namespace OrderSoft {
 
             return responseBody.Order;
 		}
+
+        /// <summary>
+        ///   Send order object to server to update/set new order
+        /// </summary>
+        public async Task<string> SetOrder (OrderObject toSet) {
+            var vals = new SetOrderRequest();
+            vals.Order = toSet;
+
+            // Send request
+            var rawResponse = await sendRequest("setOrder", vals);
+            var responseBody = await getResponseObject<SetOrderResponse>(rawResponse);
+
+            // Check for errors
+            if (rawResponse.StatusCode == HttpStatusCode.BadRequest) {
+                throw new MalformedRequestException(responseBody.Reason);
+            } else if (rawResponse.StatusCode == HttpStatusCode.NotFound) {
+                throw new NotFoundException(responseBody.Reason);
+            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized) {
+                throw new UnauthenticatedException(responseBody.Reason);
+            }
+
+            return responseBody.OrderId;
+        }
 
 		/// <summary>
 		///   Gets a list of open orders from the server
