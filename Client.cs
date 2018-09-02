@@ -81,14 +81,14 @@ namespace OrderSoft {
 		/// <summary>
 		///   Get order object, given an orderId or table number
 		/// </summary>
-		public async Task<OrderObject> GetOrder (string orderId = "", int tableNum = -1) {
+		public async Task<OrderObject> GetOrder (string orderId = null, int? tableNum = null) {
 			// orderId and tableNum are optional and are intended to be passed
 			// as named arguments, as per documentation
 			var vals = new GetOrderRequest();
 
 			// Set body values for request
-			if (orderId != "") vals.OrderId = orderId;
-			if (tableNum > -1) vals.TableNumber = tableNum;
+			if (orderId != null) vals.OrderId = orderId;
+			if (tableNum.HasValue) vals.TableNumber = tableNum;
 
 			// Send request
 			var rawResponse = await sendRequest("getOrder", vals);
@@ -99,7 +99,8 @@ namespace OrderSoft {
                 throw new MalformedRequestException(responseBody.Reason);
             } else if (rawResponse.StatusCode == HttpStatusCode.NotFound) {
                 throw new NotFoundException(responseBody.Reason);
-            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized) {
+            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized
+                      || rawResponse.StatusCode == HttpStatusCode.Forbidden) {
                 throw new UnauthenticatedException(responseBody.Reason);
             }
 
@@ -122,11 +123,45 @@ namespace OrderSoft {
                 throw new MalformedRequestException(responseBody.Reason);
             } else if (rawResponse.StatusCode == HttpStatusCode.NotFound) {
                 throw new NotFoundException(responseBody.Reason);
-            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized) {
+            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized
+                      || rawResponse.StatusCode == HttpStatusCode.Forbidden) {
                 throw new UnauthenticatedException(responseBody.Reason);
             }
 
             return responseBody.OrderId;
+        }
+
+        /// <summary>
+        ///   Search database for dishes and return based on criteria
+        /// </summary>
+        public async Task<DishObject[]> GetDishes (string category = null, 
+                                                   int? dishId = null, 
+                                                   float? minPrice = null, 
+                                                   float? maxPrice = null) {
+            // Each parameter should be passed as a named parameter
+            var vals = new GetDishesRequest();
+
+            // Populate body values
+            if (category != null) vals.Category = category;
+            if (dishId.HasValue) vals.DishId = dishId;
+            if (minPrice.HasValue) vals.MinPrice = minPrice;
+            if (maxPrice.HasValue) vals.MaxPrice = maxPrice;
+
+            // Send request
+            var rawResponse = await sendRequest("getDishes", vals);
+            var responseBody = await getResponseObject<GetDishesResponse>(rawResponse);
+
+            // Check for errors
+            if (rawResponse.StatusCode == HttpStatusCode.BadRequest) {
+                throw new MalformedRequestException(responseBody.Reason);
+            } else if (rawResponse.StatusCode == HttpStatusCode.NotFound) {
+                throw new NotFoundException(responseBody.Reason);
+            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized
+                      || rawResponse.StatusCode == HttpStatusCode.Forbidden) {
+                throw new UnauthenticatedException(responseBody.Reason);
+            }
+
+            return responseBody.Results;
         }
 
 		/// <summary>
@@ -190,7 +225,7 @@ namespace OrderSoft {
 			settings.MissingMemberHandling = MissingMemberHandling.Ignore;
 
 			// Convert dict to JSON, StringContent
-			var bodyJSON = JsonConvert.SerializeObject(bodyVals);
+			var bodyJSON = JsonConvert.SerializeObject(bodyVals, settings);
 			var bodyContent = new StringContent(bodyJSON, Encoding.UTF8, "application/json");
 
 			return httpClient.PostAsync(urlToPost, bodyContent);

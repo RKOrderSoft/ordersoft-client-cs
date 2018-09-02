@@ -27,7 +27,7 @@ namespace OrderSoft {
 		public string OrderId;
 
 		[JsonProperty("tableNumber")]
-		public int TableNumber;
+		public int? TableNumber;
 	}
 
 	public class SetOrderRequest : RequestBody {
@@ -37,16 +37,16 @@ namespace OrderSoft {
 
 	public class GetDishesRequest : RequestBody {
 		[JsonProperty("dishId")]
-		public int DishId;
+		public int? DishId;
 
 		[JsonProperty("category")]
 		public string Category;
 
 		[JsonProperty("minPrice")]
-		public float minPrice;
+		public float? MinPrice;
 
 		[JsonProperty("maxPrice")]
-		public float maxPrice;
+		public float? MaxPrice;
 	}
 
 	// ================

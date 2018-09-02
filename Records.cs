@@ -6,11 +6,11 @@ using Newtonsoft.Json;
 namespace OrderSoft {
 	public class OrderObject {
         [JsonIgnore]
-		public DateTime TimeSubmitted;
+		public DateTime? TimeSubmitted;
         [JsonIgnore]
-		public DateTime TimeCompleted;
+		public DateTime? TimeCompleted;
         [JsonIgnore]
-		public DateTime TimePaid;
+		public DateTime? TimePaid;
         [JsonIgnore]
 		public string[] Dishes;
 
@@ -28,7 +28,8 @@ namespace OrderSoft {
 
 		[JsonProperty("timeSubmitted")]
 		public string TimeSubmittedString {
-			get { return TimeSubmitted.ToString("yyyy-MM-dd HH:mm:ss", 
+            get { if (!TimeSubmitted.HasValue) return null;
+                return TimeSubmitted.Value.ToString("yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
 			set { TimeSubmitted = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
@@ -36,7 +37,8 @@ namespace OrderSoft {
 
 		[JsonProperty("timeCompleted")]
 		public string TimeCompletedString {
-			get { return TimeCompleted.ToString("yyyy-MM-dd HH:mm:ss", 
+            get { if (!TimeCompleted.HasValue) return null;
+                return TimeCompleted.Value.ToString("yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
 			set { TimeCompleted = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
@@ -44,7 +46,8 @@ namespace OrderSoft {
 
 		[JsonProperty("timePaid")]
 		public string TimePaidString {
-			get { return TimePaid.ToString("yyyy-MM-dd HH:mm:ss", 
+            get { if (!TimePaid.HasValue) return null;
+                return TimePaid.Value.ToString("yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
 			set { TimePaid = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
@@ -57,7 +60,7 @@ namespace OrderSoft {
 		public int TableNumber;
 
 		[JsonProperty("amtPaid")]
-		public float AmtPaid;
+		public float? AmtPaid;
 	}
 
 	public class DishObject {
