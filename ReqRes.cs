@@ -80,13 +80,8 @@ namespace OrderSoft {
 	}
 
 	public class OpenOrdersResponse : Response {
-		public string[] OpenOrders;
-
 		[JsonProperty("openOrders")]
-		public string OpenOrdersString {
-			get { return String.Join(",", OpenOrders); }
-			set { OpenOrders = value.Split(','); }
-		}
+		public string[] OpenOrders;
 	}
 
 	public class UnpaidOrdersResponse : Response {

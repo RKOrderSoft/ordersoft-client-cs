@@ -79,6 +79,18 @@ namespace OrderSoft {
 		}
 
 		/// <summary>
+		///   Gets a list of open orders from the server
+		/// </summary>
+		public async Task<OpenOrdersResponse> GetOpenOrders () {
+			var vals = new RequestBody(); // blank request for openOrders
+
+			var rawResponse = await sendRequest("openOrders", vals);
+			var responseBody = await getResponseObject<OpenOrdersResponse>(rawResponse);
+
+			return responseBody;
+		}
+
+		/// <summary>
 		///   Gets a list of unpaid orders from the server
 		/// </summary>
 		public async Task<UnpaidOrdersResponse> GetUnpaidOrders () {
@@ -120,7 +132,7 @@ namespace OrderSoft {
 			var bodyJSON = JsonConvert.SerializeObject(bodyVals);
 			var bodyContent = new StringContent(bodyJSON, Encoding.UTF8, "application/json");
 
-			return httpClient.PostAsync(urlToPost, bodyContent); // TODO handle get/delete
+			return httpClient.PostAsync(urlToPost, bodyContent);
 		}
 	}
 }
