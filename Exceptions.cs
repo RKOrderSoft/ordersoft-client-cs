@@ -24,4 +24,16 @@ namespace OrderSoft {
 		public UnauthenticatedException (string message) : base(message) {}
 		public UnauthenticatedException (string message, Exception inner) : base(message, inner) {}
 	}
+
+    public class MalformedRequestException : Exception {
+        public MalformedRequestException () { }
+        public MalformedRequestException (string message) : base(message) { }
+        public MalformedRequestException (string message, Exception inner) : base(message, inner) { }
+    }
+
+    public class NotFoundException : Exception {
+        public NotFoundException () { }
+        public NotFoundException (string message) : base(message) { }
+        public NotFoundException (string message, Exception inner) : base(message, inner) { }
+    }
 }

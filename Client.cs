@@ -94,7 +94,16 @@ namespace OrderSoft {
 			var rawResponse = await sendRequest("getOrder", vals);
 			var responseBody = await getResponseObject<GetOrderResponse>(rawResponse);
 
-			return responseBody.Order;
+            // Check that request returned HTTP OK
+            if (rawResponse.StatusCode == HttpStatusCode.BadRequest) {
+                throw new MalformedRequestException(responseBody.Reason);
+            } else if (rawResponse.StatusCode == HttpStatusCode.NotFound) {
+                throw new NotFoundException(responseBody.Reason);
+            } else if (rawResponse.StatusCode == HttpStatusCode.Unauthorized) {
+                throw new UnauthenticatedException(responseBody.Reason);
+            }
+
+            return responseBody.Order;
 		}
 
 		/// <summary>
@@ -151,6 +160,11 @@ namespace OrderSoft {
 			if (currentEndpoint == null) throw new NotInitiatedException();
 
 			var urlToPost = new Uri(currentEndpoint, relativeUrl);
+
+			// Create setting so serializer ignores null values
+			var settings = new JsonSerializerSettings();
+			settings.NullValueHandling = NullValueHandling.Ignore;
+			settings.MissingMemberHandling = MissingMemberHandling.Ignore;
 
 			// Convert dict to JSON, StringContent
 			var bodyJSON = JsonConvert.SerializeObject(bodyVals);
