@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -7,12 +8,16 @@ namespace OrderSoft {
 		public DateTime TimeSubmitted;
 		public DateTime TimeCompleted;
 		public DateTime TimePaid;
+		public string[] Dishes;
 
 		[JsonProperty("orderId")]
 		public string OrderId;
 
 		[JsonProperty("dishes")]
-		public List<DishObject> Dishes;
+        public string DishesString {
+            get { return String.Join(",", Dishes); }
+            set { Dishes = value.Split(','); }
+		}
 
 		[JsonProperty("notes")]
 		public string Notes;
@@ -35,9 +40,9 @@ namespace OrderSoft {
 
 		[JsonProperty("timePaid")]
 		public string TimePaidString {
-			get { return TimeCompleted.ToString("yyyy-MM-dd HH:mm:ss", 
+			get { return TimePaid.ToString("yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
-			set { TimeCompleted = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", 
+			set { TimePaid = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", 
 				System.Globalization.CultureInfo.InvariantCulture); }
 		}
 

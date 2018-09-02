@@ -79,27 +79,46 @@ namespace OrderSoft {
 		}
 
 		/// <summary>
+		///   Get order object, given an orderId or table number
+		/// </summary>
+		public async Task<OrderObject> GetOrder(string orderId = "", int tableNum = -1) {
+			// orderId and tableNum are optional and are intended to be passed
+			// as named arguments, as per documentation
+			var vals = new GetOrderRequest();
+
+			// Set body values for request
+			if (orderId != "") vals.OrderId = orderId;
+			if (tableNum > -1) vals.TableNumber = tableNum;
+
+			// Send request
+			var rawResponse = await sendRequest("getOrder", vals);
+			var responseBody = await getResponseObject<GetOrderResponse>(rawResponse);
+
+			return responseBody.Order;
+		}
+
+		/// <summary>
 		///   Gets a list of open orders from the server
 		/// </summary>
-		public async Task<OpenOrdersResponse> GetOpenOrders () {
+		public async Task<string[]> GetOpenOrders () {
 			var vals = new RequestBody(); // blank request for openOrders
 
 			var rawResponse = await sendRequest("openOrders", vals);
 			var responseBody = await getResponseObject<OpenOrdersResponse>(rawResponse);
 
-			return responseBody;
+			return responseBody.OpenOrders;
 		}
 
 		/// <summary>
 		///   Gets a list of unpaid orders from the server
 		/// </summary>
-		public async Task<UnpaidOrdersResponse> GetUnpaidOrders () {
+		public async Task<string[]> GetUnpaidOrders () {
 			var vals = new RequestBody(); // blank request for unpaidOrders
 
 			var rawResponse = await sendRequest("unpaidOrders", vals);
 			var responseBody = await getResponseObject<UnpaidOrdersResponse>(rawResponse);
 
-			return responseBody;
+			return responseBody.UnpaidOrders;
 		}
 
 		/// <summary>
@@ -108,7 +127,12 @@ namespace OrderSoft {
 		private async Task<T> getResponseObject<T>(HttpResponseMessage response) {
 			var responseText = await response.Content.ReadAsStringAsync();
 			responseText = parseResponse(responseText);
-			return JsonConvert.DeserializeObject<T>(responseText);
+
+			// Create settings object to disregard null values
+			var settings = new JsonSerializerSettings();
+			settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.MissingMemberHandling = MissingMemberHandling.Ignore;
+			return JsonConvert.DeserializeObject<T>(responseText, settings);
 		}
 
 		/// <summary>
