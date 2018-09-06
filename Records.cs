@@ -94,4 +94,8 @@ namespace OrderSoft {
 		[JsonProperty("description")]
 		public string Description;
 	}
+
+	public class UserObject {
+		[]
+	}
 }
