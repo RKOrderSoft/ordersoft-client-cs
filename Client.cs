@@ -189,6 +189,23 @@ namespace OrderSoft {
 		}
 
 		/// <summary>
+		///   Gets the details of a user, given userId
+		/// </summary>
+		public async Task<UserObject> GetUserDetails (string userId) {
+			var vals = new UserDetailsRequest();
+			vals.UserId = userId;
+
+			var rawResponse = await sendRequest("userDetails", vals);
+			var responseBody = await getResponseObject<UserDetailsResponse>(rawResponse);
+
+			if (rawResponse.StatusCode == HttpStatusCode.BadRequest) {
+				throw new MalformedRequestException(responseBody.Reason);
+			}
+
+			return responseBody.User;
+		}
+
+		/// <summary>
 		///   Given an HttpResponseMessage, returns an object by deserialising the content JSON.
 		/// </summary>
 		private async Task<T> getResponseObject<T>(HttpResponseMessage response) {

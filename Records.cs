@@ -96,6 +96,25 @@ namespace OrderSoft {
 	}
 
 	public class UserObject {
-		[]
+		[JsonIgnore]
+		public DateTime? DateAdded;
+
+		[JsonProperty("userId")]
+		public string UserId;
+
+		[JsonProperty("username")]
+		public string Username;
+
+		[JsonProperty("accessLevel")]
+		public int AccessLevel;
+
+		[JsonProperty("dateAdded")]
+		public string DateAddedString {
+			get { if (!DateAdded.HasValue) return null;
+                return DateAdded.Value.ToString("yyyy-MM-dd HH:mm:ss", 
+				System.Globalization.CultureInfo.InvariantCulture); }
+			set { DateAdded = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", 
+				System.Globalization.CultureInfo.InvariantCulture); }
+		}
 	}
 }

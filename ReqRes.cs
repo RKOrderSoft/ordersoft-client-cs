@@ -49,6 +49,11 @@ namespace OrderSoft {
 		public float? MaxPrice;
 	}
 
+	public class UserDetailsRequest : RequestBody {
+		[JsonProperty("userId")]
+		public string UserId;
+	}
+
 	// ================
 	// Response objects
 	// ================
@@ -92,5 +97,10 @@ namespace OrderSoft {
 	public class GetDishesResponse : Response {
 		[JsonProperty("results")]
 		public DishObject[] Results;
+	}
+
+	public class UserDetailsResponse : Response {
+		[JsonProperty("User")]
+		public UserObject User;
 	}
 }
