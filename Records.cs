@@ -6,27 +6,27 @@ using Newtonsoft.Json;
 namespace OrderSoft {
 	public class OrderObject {
         [JsonIgnore]
-		public DateTime? TimeSubmitted;
+        public DateTime? TimeSubmitted { get; set; }
         [JsonIgnore]
-		public DateTime? TimeCompleted;
+		public DateTime? TimeCompleted { get; set; }
         [JsonIgnore]
-		public DateTime? TimePaid;
+		public DateTime? TimePaid { get; set; }
         [JsonIgnore]
-		public string[] Dishes;
+		public string[] Dishes { get; set; }
 
-		[JsonProperty("orderId")]
-		public string OrderId;
+        [JsonProperty("orderId")]
+		public string OrderId { get; set; }
 
-		[JsonProperty("dishes")]
+        [JsonProperty("dishes")]
         public string DishesString {
             get { return String.Join(",", Dishes); }
             set { Dishes = value.Split(','); }
 		}
 
 		[JsonProperty("notes")]
-		public string Notes;
+		public string Notes { get; set; }
 
-		[JsonProperty("timeSubmitted")]
+        [JsonProperty("timeSubmitted")]
 		public string TimeSubmittedString {
             get { if (!TimeSubmitted.HasValue) return null;
                 return TimeSubmitted.Value.ToString("yyyy-MM-dd HH:mm:ss", 
@@ -54,61 +54,61 @@ namespace OrderSoft {
 		}
 
 		[JsonProperty("serverId")]
-		public string ServerId;
+		public string ServerId { get; set; }
 
-		[JsonProperty("tableNumber")]
-		public int TableNumber;
+        [JsonProperty("tableNumber")]
+		public int TableNumber { get; set; }
 
-		[JsonProperty("amtPaid")]
-		public float? AmtPaid;
-	}
+        [JsonProperty("amtPaid")]
+		public float? AmtPaid { get; set; }
+    }
 
 	public class DishObject {
         [JsonIgnore]
-		public string[] Sizes;
+		public string[] Sizes { get; set; }
 
-		[JsonProperty("dishId")]
-		public int DishId;
+        [JsonProperty("dishId")]
+		public int DishId { get; set; }
 
-		[JsonProperty("name")]
-		public string Name;
+        [JsonProperty("name")]
+		public string Name { get; set; }
 
-		[JsonProperty("basePrice")]
-		public float BasePrice;
+        [JsonProperty("basePrice")]
+		public float BasePrice { get; set; }
 
-		[JsonProperty("upgradePrice")]
-		public float UpgradePrice;
+        [JsonProperty("upgradePrice")]
+		public float UpgradePrice { get; set; }
 
-		[JsonProperty("sizes")]
+        [JsonProperty("sizes")]
 		public string SizesString {
 			get { return String.Join(",", Sizes); }
 			set { Sizes = value.Split(','); }
 		}
 
 		[JsonProperty("category")]
-		public string Category;
+		public string Category { get; set; }
 
-		[JsonProperty("image")]
-		public string Image;
+        [JsonProperty("image")]
+		public string Image { get; set; }
 
-		[JsonProperty("description")]
-		public string Description;
-	}
+        [JsonProperty("description")]
+		public string Description { get; set; }
+    }
 
 	public class UserObject {
 		[JsonIgnore]
-		public DateTime? DateAdded;
+		public DateTime? DateAdded { get; set; }
 
-		[JsonProperty("userId")]
-		public string UserId;
+        [JsonProperty("userId")]
+		public string UserId { get; set; }
 
-		[JsonProperty("username")]
-		public string Username;
+        [JsonProperty("username")]
+		public string Username { get; set; }
 
-		[JsonProperty("accessLevel")]
-		public int AccessLevel;
+        [JsonProperty("accessLevel")]
+		public int AccessLevel { get; set; }
 
-		[JsonProperty("dateAdded")]
+        [JsonProperty("dateAdded")]
 		public string DateAddedString {
 			get { if (!DateAdded.HasValue) return null;
                 return DateAdded.Value.ToString("yyyy-MM-dd HH:mm:ss", 
