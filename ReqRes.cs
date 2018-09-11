@@ -100,7 +100,12 @@ namespace OrderSoft {
 	}
 
 	public class UserDetailsResponse : Response {
-		[JsonProperty("User")]
+		[JsonProperty("user")]
 		public UserObject User;
+	}
+
+	public class GetCategoriesResponse : Response {
+		[JsonProperty("categories")]
+		public string[] Categories;
 	}
 }

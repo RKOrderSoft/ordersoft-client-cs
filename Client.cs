@@ -164,6 +164,18 @@ namespace OrderSoft {
             return responseBody.Results;
         }
 
+        /// <summary>
+        ///   Get a list of categories from server
+        /// </summary>
+        public async Task<string[]> GetCategories () {
+        	var vals = new RequestBody(); // blank request; no params
+
+        	var rawResponse = await sendRequest("getCategories", vals);
+        	var responseBody = await getResponseObject<GetCategoriesResponse>(rawResponse);
+
+        	return responseBody.Categories;
+        }
+
 		/// <summary>
 		///   Gets a list of open orders from the server
 		/// </summary>
