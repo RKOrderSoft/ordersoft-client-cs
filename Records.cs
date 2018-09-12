@@ -86,7 +86,7 @@ namespace OrderSoft {
                 return String.Join(",", Sizes);
             }
 			set {
-                if (SizesString != null){
+                if (value != null){
                     Sizes = value.Split(',');
                 }
             }
