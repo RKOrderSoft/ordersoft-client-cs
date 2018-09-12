@@ -81,8 +81,15 @@ namespace OrderSoft {
 
         [JsonProperty("sizes")]
 		public string SizesString {
-			get { return String.Join(",", Sizes); }
-			set { Sizes = value.Split(','); }
+			get {
+                if (Sizes == null) return null;
+                return String.Join(",", Sizes);
+            }
+			set {
+                if (SizesString != null){
+                    Sizes = value.Split(',');
+                }
+            }
 		}
 
 		[JsonProperty("category")]
