@@ -108,4 +108,9 @@ namespace OrderSoft {
 		[JsonProperty("categories")]
 		public string[] Categories;
 	}
+
+    public class CurrentUserResponse : Response {
+        [JsonProperty("userId")]
+        public string UserId;
+    }
 }

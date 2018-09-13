@@ -200,6 +200,18 @@ namespace OrderSoft {
 			return responseBody.UnpaidOrders;
 		}
 
+        /// <summary>
+        ///   Gets the current userId of the logged in user
+        /// </summary>
+        public async Task<String> GetCurrentUserId () {
+            var vals = new RequestBody(); // blank request
+
+            var rawResponse = await sendRequest("getCurrentUser", vals);
+            var responseBody = await getResponseObject<CurrentUserResponse>(rawResponse);
+
+            return responseBody.UserId;
+        }
+
 		/// <summary>
 		///   Gets the details of a user, given userId
 		/// </summary>
